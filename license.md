@@ -1,3 +1,6 @@
+New BSD License
+---------------
+
 Copyright (c) 2014, RebendaJiri
 All rights reserved.
 
