@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<books>
+	<book id="1" name="Inferno" author="Dan Brown" date-published="2013-05-14" />
+	<book id="2" name="A Game of Thrones" author="George R.R. Martin" date-published="2003-01-01" />
+	<book id="3" name="World War Z" author="Max Brooks" date-published="2006-09-12" />
+	<book id="4" name="Bad Monkey" author="Carl Hiaasen" date-published="2013-06-11" />
+	<book id="5" name="Into the Wild" author="Jon Krakauer" date-published="1997-01-20" />
+</books>
