@@ -1,6 +1,5 @@
 FrameworkComparison
 ===================
-(c) RebendaJiri 2014
 
 Comparison of PHP frameworks Zend, Nette and Phalcon.
 
