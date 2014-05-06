@@ -76,7 +76,8 @@ echo $application->handle()->getContent();
 
 $time = Debugger::timer('script_load');
 
-$logger = new Logger(__DIR__ . '/../../JR/FrameworkComparison/_results');
+//$logger = new Logger(__DIR__ . '/../../JR/FrameworkComparison/_results');
+//$logger = new Logger(__DIR__ . '/../../JR/FrameworkComparison/_results/opcache');
 //$logger->logTime(Logger::TYPE_PHALCON_HOMEPAGE_CACHING, $time);
 //$logger->logTime(Logger::TYPE_PHALCON_BOOKS_CACHING, $time);
 //$logger->logTime(Logger::TYPE_PHALCON_BOOK_CACHING, $time);

@@ -2,10 +2,10 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Framework comparision</title>
+		<title>Framework comparison</title>
 	</head>
 	<body>
-		<h1>Framework comparision</h1>
+		<h1>Framework comparison</h1>
 		<ul>
 			<li><a href="zend/public">Zend</a></li>
 			<li><a href="nette/www">Nette</a></li>

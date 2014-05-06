@@ -54,6 +54,7 @@ class TimeLogProcessor
 		$stats = array();
 		foreach ($logData as $type => $records) {
 			$stats[$type] = array(
+				'count' => count($records),
 				'time_mean' => mean(getArrayValues($records, function ($record) {
 					return $record['time'];
 				}), $records),

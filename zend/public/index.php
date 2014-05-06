@@ -22,7 +22,8 @@ Zend\Mvc\Application::init(require 'config/application.config.php')->run();
 
 $time = Debugger::timer('script_load');
 
-$logger = new Logger(__DIR__ . '/../../JR/FrameworkComparison/_results');
+//$logger = new Logger(__DIR__ . '/../../JR/FrameworkComparison/_results');
+//$logger = new Logger(__DIR__ . '/../../JR/FrameworkComparison/_results/opcache');
 //$logger->logTime(Logger::TYPE_ZEND_HOMEPAGE, $time);
 //$logger->logTime(Logger::TYPE_ZEND_BOOKS, $time);
 //$logger->logTime(Logger::TYPE_ZEND_BOOK, $time);

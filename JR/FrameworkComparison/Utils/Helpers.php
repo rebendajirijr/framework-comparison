@@ -61,7 +61,10 @@ class Helpers
 			$mean = $mean + $delta/$n;
 			$M2 = $M2 + $delta*($x - $mean);
 		}
-		$variance = $M2/($n - 1);
+		if ($n <= 1) {
+			return 0;
+		}
+		$variance = $M2 / ($n - 1);
 		return sqrt($variance);
 	}
 

@@ -13,7 +13,8 @@ $container->getService('application')->run();
 
 $time = Debugger::timer('script_load');
 
-$logger = new Logger(__DIR__ . '/../../JR/FrameworkComparison/_results');
+//$logger = new Logger(__DIR__ . '/../../JR/FrameworkComparison/_results');
+//$logger = new Logger(__DIR__ . '/../../JR/FrameworkComparison/_results/opcache');
 //$logger->logTime(Logger::TYPE_NETTE_HOMEPAGE_CACHING, $time);
 //$logger->logTime(Logger::TYPE_NETTE_BOOKS_CACHING, $time);
 //$logger->logTime(Logger::TYPE_NETTE_BOOK_CACHING, $time);

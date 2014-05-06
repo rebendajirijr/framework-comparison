@@ -60,6 +60,11 @@ function roundFloat($value, $precision = 5) {
 }
 
 $filepath = __DIR__ . '/JR/FrameworkComparison/_results/timelog.csv';
+if (isset($_GET['input-file'])) {
+	if ($_GET['input-file'] == '2') {
+		$filepath = __DIR__ . '/JR/FrameworkComparison/_results/opcache/timelog.csv';
+	}
+}
 
 $timeLogProcessor = new TimeLogProcessor($filepath);
 $data = $timeLogProcessor->getData();
@@ -82,6 +87,15 @@ $stats = $data['stats'];
 	<body>
 		<p><a href="/">Back to root</a></p>
 		<hr>
+		<form method="GET" action="results.php">
+			<label for="input-file">Input file:</label>
+			<select id="input-file" name="input-file">
+				<option value="1" <?php echo isset($_GET['input-file']) && $_GET['input-file'] == '1' ? 'selected="selected"' : NULL; ?>>normal</option>
+				<option value="2" <?php echo isset($_GET['input-file']) && $_GET['input-file'] == '2' ? 'selected="selected"' : NULL; ?>>opcache</option>
+			</select>
+			<input type="submit" value="Load">
+		</form>
+		<hr>
 		<h1>Overall stats</h1>
 		<table>
 			<thead>
@@ -93,6 +107,12 @@ $stats = $data['stats'];
 				</tr>
 			</thead>
 			<tbody>
+				<tr>
+					<td>Count</td>
+					<?php foreach ($stats as $type => $typeStats): ?>
+					<td><?php echo $typeStats['count']; ?></td>
+					<?php endforeach; ?>
+				</tr>
 				<tr>
 					<td>Total time mean</td>
 					<?php foreach ($stats as $type => $typeStats): ?>
