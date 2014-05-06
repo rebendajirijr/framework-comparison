@@ -2,6 +2,11 @@
 
 namespace JR\FrameworkComparison\Utils;
 
+use JR\FrameworkComparison\Utils\Helpers;
+
+require_once __DIR__ . '/Helpers.php';
+
+
 /**
  * Description of TimeLogProcessor
  *
@@ -55,16 +60,22 @@ class TimeLogProcessor
 		foreach ($logData as $type => $records) {
 			$stats[$type] = array(
 				'count' => count($records),
-				'time_mean' => mean(getArrayValues($records, function ($record) {
+				'time_mean' => Helpers::mean(Helpers::getArrayValues($records, function ($record) {
 					return $record['time'];
 				}), $records),
-				'time_sd' => standardDeviation(getArrayValues($records, function ($record) {
+				'time_median' => Helpers::median(Helpers::getArrayValues($records, function ($record) {
 					return $record['time'];
 				})),
-				'memory_mean' => mean(getArrayValues($records, function ($record) {
+				'time_sd' => Helpers::standardDeviation(Helpers::getArrayValues($records, function ($record) {
+					return $record['time'];
+				})),
+				'memory_mean' => Helpers::mean(Helpers::getArrayValues($records, function ($record) {
 					return $record['memory'];
 				}), $records),
-				'memory_sd' => standardDeviation(getArrayValues($records, function ($record) {
+				'memory_median' => Helpers::median(Helpers::getArrayValues($records, function ($record) {
+					return $record['memory'];
+				})),
+				'memory_sd' => Helpers::standardDeviation(Helpers::getArrayValues($records, function ($record) {
 					return $record['memory'];
 				})),
 			);

@@ -42,6 +42,29 @@ class Helpers
 		$count = count($values);
 		return $sum / $count;
 	}
+	
+	/**
+	 * Returns median of given array values.
+	 * 
+	 * @see http://codereview.stackexchange.com/questions/220/calculate-a-median-too-much-code/223#223
+	 * @param array $values
+	 * @return mixed
+	 * @throws \DomainException
+	 */
+	public static function median(array $values)
+	{
+		$iCount = count($values);
+		if ($iCount == 0) {
+		  throw new \DomainException('Median of an empty array is undefined');
+		}
+		$middle_index = floor($iCount / 2);
+		sort($values, SORT_NUMERIC);
+		$median = $values[$middle_index];
+		if ($iCount % 2 == 0) {
+			$median = ($median + $values[$middle_index - 1]) / 2;
+		}
+		return $median;
+	}
 
 	/**
 	 * Calculates standard deviation of array values.

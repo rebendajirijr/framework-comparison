@@ -87,13 +87,13 @@ $stats = $data['stats'];
 	<body>
 		<p><a href="/">Back to root</a></p>
 		<hr>
-		<form method="GET" action="results.php">
+		<form id="input-file-form" method="GET" action="results.php">
 			<label for="input-file">Input file:</label>
-			<select id="input-file" name="input-file">
+			<select id="input-file" name="input-file" onchange="document.getElementById('input-file-form').submit();">
 				<option value="1" <?php echo isset($_GET['input-file']) && $_GET['input-file'] == '1' ? 'selected="selected"' : NULL; ?>>normal</option>
 				<option value="2" <?php echo isset($_GET['input-file']) && $_GET['input-file'] == '2' ? 'selected="selected"' : NULL; ?>>opcache</option>
 			</select>
-			<input type="submit" value="Load">
+			<noscript><input type="submit" value="Load"></noscript>
 		</form>
 		<hr>
 		<h1>Overall stats</h1>
@@ -120,6 +120,12 @@ $stats = $data['stats'];
 					<?php endforeach; ?>
 				</tr>
 				<tr>
+					<td>Total time median</td>
+					<?php foreach ($stats as $type => $typeStats): ?>
+					<td><?php echo round($typeStats['time_median'] * 1000, 5); ?></td>
+					<?php endforeach; ?>
+				</tr>
+				<tr>
 					<td>Total time standard deviation</td>
 					<?php foreach ($stats as $type => $typeStats): ?>
 					<td><?php echo round($typeStats['time_sd'] * 1000, 5); ?></td>
@@ -129,6 +135,12 @@ $stats = $data['stats'];
 					<td>Memory peak usage mean</td>
 					<?php foreach ($stats as $type => $typeStats): ?>
 					<td><?php echo roundFloat(toMb($typeStats['memory_mean']), 5); ?></td>
+					<?php endforeach; ?>
+				</tr>
+				<tr>
+					<td>Memory peak usage median</td>
+					<?php foreach ($stats as $type => $typeStats): ?>
+					<td><?php echo roundFloat(toMb($typeStats['memory_median']), 5); ?></td>
 					<?php endforeach; ?>
 				</tr>
 				<tr>
@@ -168,6 +180,11 @@ $stats = $data['stats'];
 					<td colspan="2">Mean</td>
 					<td><?php echo round($stats[$type]['time_mean'] * 1000, 5); ?></td>
 					<td><?php echo roundFloat(toMb($stats[$type]['memory_mean']), 5); ?></td>
+				</tr>
+				<tr>
+					<td colspan="2">Median</td>
+					<td><?php echo round($stats[$type]['time_median'] * 1000, 5); ?></td>
+					<td><?php echo roundFloat(toMb($stats[$type]['memory_median']), 5); ?></td>
 				</tr>
 				<tr>
 					<td colspan="2">Standard deviation</td>
