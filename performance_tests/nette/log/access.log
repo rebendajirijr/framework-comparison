@@ -1,0 +1,1 @@
+[2014-04-28 10-39-35] HTTP code 404: Cannot load presenter 'Aaa', class 'App\Presenters\AaaPresenter' was not found in 'C:\xampp\htdocs\test\nette-sandbox\app/presenters/AaaPresenter.php'. in C:\xampp\htdocs\test\nette-sandbox\vendor\nette\nette\Nette\Application\Application.php:128  @  http://testik/nette-sandbox/www/aaa
