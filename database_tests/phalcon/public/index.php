@@ -4,7 +4,8 @@ require_once __DIR__ . '/../../../JR/FrameworkComparison/Utils/Logger.php';
 require_once __DIR__ . '/../../nette/vendor/nette/nette/Nette/Diagnostics/Debugger.php';
 
 use JR\FrameworkComparison\Utils\Logger,
-	Nette\Diagnostics\Debugger;
+	Nette\Diagnostics\Debugger,
+	JR\FrameworkComparison\Model\Repositories;
 
 Debugger::timer('script_load');
 
@@ -35,7 +36,7 @@ $di->set('dispatcher', function () use ($di) {
 	return $dispatcher;
 });
 
-$di->set('url', function () use ($config){
+$di->set('url', function () use ($config) {
 	$url = new \Phalcon\Mvc\Url();
 	$url->setBaseUri($config->application->baseUri);
 	return $url;
@@ -56,11 +57,30 @@ $di->set('volt', function ($view, $di) {
 		'compiledPath' => '../cache/volt/'
 	));
 	return $volt;
-}, true);
+}, TRUE);
 
-$di->set('bookRepository', function () use ($config) {
-	$xmlFilename = $config->parameters->booksXmlFilename;
-	return new \JR\FrameworkComparison\Model\Repositories\BookRepository($xmlFilename);
+$di->set('logger', function () use ($config) {
+	$directory = $config['logger']['dir'];
+	$logger = new Logger($directory);
+	return $logger;
+}, TRUE);
+
+$di->set('dbAdapter', function () use ($di, $config) {
+	$dbConfig = array(
+		'host' => $config['database']['host'],
+		'dbname' => $config['database']['dbname'],
+		'username' => $config['database']['username'],
+		'password' => $config['database']['password'],
+	);
+	$adapter = new \Phalcon\Db\Adapter\Pdo\Mysql($dbConfig);
+	return $adapter;
+}, TRUE);
+
+$di->set('bookRepository', function () use ($di) {
+	$adapter = $di->get('dbAdapter');
+	$logger = $di->get('logger');
+	$bookRepository = new Repositories\PhalconDbBookRepository($adapter, $logger);
+	return $bookRepository;
 }, TRUE);
 
 $di->set('bookFacade', function () use ($di) {

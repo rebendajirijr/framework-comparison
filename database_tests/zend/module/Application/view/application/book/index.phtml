@@ -1,0 +1,5 @@
+<p><a href="<?php echo $this->url('application/default', array('controller' => 'books')); ?>">Back to list</a></p>
+<hr>
+<h1><?php echo $this->escapeHtml($book->name); ?></h1>
+<p>Author: <?php echo $this->escapeHtml($book->author); ?></p>
+<p>Published: <?php echo $this->escapeHtml($book->datePublished->format('Y-m-d')); ?></p>

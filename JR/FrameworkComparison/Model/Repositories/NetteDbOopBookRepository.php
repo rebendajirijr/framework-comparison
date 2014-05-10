@@ -4,17 +4,17 @@ namespace JR\FrameworkComparison\Model\Repositories;
 
 use Nette\Database\Context,
 	Nette\Database\Table\Selection,
-	Nette\Database\ResultSet,
+	Nette\Database\Table\ActiveRow,
 	Nette\Diagnostics\Debugger,
 	JR\FrameworkComparison\Model\Entities,
 	JR\FrameworkComparison\Utils\Logger;
 
 /**
- * Description of NetteDbBookRepository
+ * Description of NetteDbOopBookRepository
  *
  * @author RebendaJiri
  */
-class NetteDbBookRepository implements IBookRepository
+class NetteDbOopBookRepository implements IBookRepository
 {
 	/**
 	 * @internal
@@ -42,11 +42,11 @@ class NetteDbBookRepository implements IBookRepository
 	 */
 	public function findAll()
 	{
-		Debugger::timer('nette_db_books');
-		$selection = $this->context->query('SELECT * FROM `' . static::TABLE_NAME . '`');
-		$time = Debugger::timer('nette_db_books');
+		Debugger::timer('nette_db_oop_books');
+		$selection = $this->context->table(static::TABLE_NAME)->fetchAll();
+		$time = Debugger::timer('nette_db_oop_books');
 		
-		$this->logger->logTime(Logger::TYPE_NETTE_DB_BOOKS, $time);
+		$this->logger->logTime(Logger::TYPE_NETTE_DB_OOP_BOOKS, $time);
 		
 		$entities = $this->createAllEntities($selection);
 		return $entities;
@@ -58,22 +58,22 @@ class NetteDbBookRepository implements IBookRepository
 	public function findById($id)
 	{
 		$id = (int) $id;
-		Debugger::timer('nette_db_book');
-		$selection = $this->context->queryArgs('SELECT * FROM `' . static::TABLE_NAME . '` WHERE `id` = ?', array(
-			$id,
-		));
-		$time = Debugger::timer('nette_db_book');
+		Debugger::timer('nette_db_oop_book');
+		$selection = $this->context->table(static::TABLE_NAME)->where(array(
+			 'id' => $id,
+		))->fetch();
+		$time = Debugger::timer('nette_db_oop_book');
 		
-		$this->logger->logTime(Logger::TYPE_NETTE_DB_BOOK, $time);
+		$this->logger->logTime(Logger::TYPE_NETTE_DB_OOP_BOOK, $time);
 		
 		$entity = $this->createOneEntity($selection);
 		return $entity;
 	}
 	
-	private function createAllEntities(ResultSet $resultSet)
+	private function createAllEntities(array $selection)
 	{
 		$entities = array();
-		foreach ($resultSet as $row) {
+		foreach ($selection as $row) {
 			$book = new Entities\Book();
 			$book->id = $row->id;
 			$book->name = $row->name;
@@ -84,12 +84,8 @@ class NetteDbBookRepository implements IBookRepository
 		return $entities;
 	}
 	
-	private function createOneEntity(ResultSet $resultSet)
+	private function createOneEntity(ActiveRow $row)
 	{
-		if (FALSE === ($row = $resultSet->fetch())) {
-			return NULL;
-		}
-		
 		$entity = new Entities\Book();
 		$entity->id = $row->id;
 		$entity->name = $row->name;

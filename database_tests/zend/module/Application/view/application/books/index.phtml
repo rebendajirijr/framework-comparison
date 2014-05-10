@@ -1,0 +1,10 @@
+<p><a href="<?php echo $this->url('application'); ?>">Homepage</a></p>
+<hr>
+<h1>Books</h1>
+<ul>
+	<?php foreach ($books as $book): ?>
+	<li>
+		<a href="<?php echo $this->url('application/default', array('controller' => 'book', 'id' => $book->id)); ?>"><?php echo $this->escapeHtml($book->name); ?> (<?php echo $this->escapeHtml($book->datePublished->format('Y')); ?>)</a>
+	</li>
+	<?php endforeach ?>
+</ul>

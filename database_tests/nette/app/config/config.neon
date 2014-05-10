@@ -7,6 +7,8 @@
 parameters:
 	connectionParameters: 'mysql:host=127.0.0.1;dbname=test'
 
+	loggerDirectory: '%wwwDir%/../../../JR/FrameworkComparison/_results/db'
+
 
 php:
 	date.timezone: Europe/Prague
@@ -27,6 +29,10 @@ services:
 	- App\RouterFactory
 	router: @App\RouterFactory::createRouter
 
+	logger:
+		class: JR\FrameworkComparison\Utils\Logger
+		arguments: [%loggerDirectory%]
+
 	databaseConnection:
 		class: Nette\Database\Connection
 		arguments: [%connectionParameters%]
@@ -36,6 +42,7 @@ services:
 
 	bookRepository:
 		class: JR\FrameworkComparison\Model\Repositories\NetteDbBookRepository
+		#class: JR\FrameworkComparison\Model\Repositories\NetteDbOopBookRepository
 
 	bookFacade:
 		class: JR\FrameworkComparison\Model\Facades\BookFacade

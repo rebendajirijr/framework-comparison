@@ -9,9 +9,6 @@ namespace JR\FrameworkComparison\Utils;
  */
 class Logger
 {
-//	const TYPE_ZEND_HOMEPAGE_CACHING = 'zend_homepage_caching';
-//	const TYPE_ZEND_BOOKS_CACHING = 'zend_books_caching';
-//	const TYPE_ZEND_BOOK_CACHING = 'zend_book_caching';
 	const TYPE_ZEND_HOMEPAGE = 'zend_homepage';
 	const TYPE_ZEND_BOOKS = 'zend_books';
 	const TYPE_ZEND_BOOK = 'zend_book';
@@ -30,9 +27,26 @@ class Logger
 	const TYPE_PHALCON_BOOKS = 'phalcon_books';
 	const TYPE_PHALCON_BOOK = 'phalcon_book';
 	
+	const TYPE_ZEND_DB_BOOKS = 'zend_db_books';
+	const TYPE_ZEND_DB_BOOK = 'zend_db_book';
+	const TYPE_ZEND_DB_OOP_BOOKS = 'zend_db_oop_books';
+	const TYPE_ZEND_DB_OOP_BOOK = 'zend_db_oop_book';
+	
+	const TYPE_NETTE_DB_BOOKS = 'nette_db_books';
+	const TYPE_NETTE_DB_BOOK = 'nette_db_book';
+	const TYPE_NETTE_DB_OOP_BOOKS = 'nette_db_oop_books';
+	const TYPE_NETTE_DB_OOP_BOOK = 'nette_db_oop_book';
+	
+	const TYPE_PHALCON_DB_BOOKS = 'phalcon_db_books';
+	const TYPE_PHALCON_DB_BOOK = 'phalcon_db_book';
+	
 	/** @var stromg */
 	private $logDirectory;
 	
+	/**
+	 * @param string $logDirectory
+	 * @throws \InvalidArgumentException if directory does not exist
+	 */
 	public function __construct($logDirectory)
 	{
 		if (!is_dir($logDirectory)) {
@@ -41,6 +55,13 @@ class Logger
 		$this->logDirectory = rtrim($logDirectory, '/');
 	}
 	
+	/**
+	 * Logs recorded time of specified type.
+	 * 
+	 * @param string $type
+	 * @param float $time
+	 * @return bool
+	 */
 	public function logTime($type, $time)
 	{
 		$filepath = $this->logDirectory . '/' . 'timelog.csv';

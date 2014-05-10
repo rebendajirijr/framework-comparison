@@ -59,10 +59,29 @@ function roundFloat($value, $precision = 5) {
 	return Helpers::roundFloat($value, $precision);
 }
 
+$inputFiles = array(
+	'1' => array(
+		'name' => 'overall performance',
+		'filepath' => __DIR__ . '/JR/FrameworkComparison/_results/timelog.csv',
+	),
+	'2' => array(
+		'name' => 'overall performance with OPcache',
+		'filepath' => __DIR__ . '/JR/FrameworkComparison/_results/opcache/timelog.csv',
+	),
+	'3' => array(
+		'name' => 'db performance',
+		'filepath' => __DIR__ . '/JR/FrameworkComparison/_results/db/timelog.csv',
+	),
+	'4' => array(
+		'name' => 'db performance with OPcache',
+		'filepath' => __DIR__ . '/JR/FrameworkComparison/_results/db/opcache/timelog.csv',
+	),
+);
+
 $filepath = __DIR__ . '/JR/FrameworkComparison/_results/timelog.csv';
 if (isset($_GET['input-file'])) {
-	if ($_GET['input-file'] == '2') {
-		$filepath = __DIR__ . '/JR/FrameworkComparison/_results/opcache/timelog.csv';
+	if (array_key_exists($_GET['input-file'], $inputFiles)) {
+		$filepath = $inputFiles[$_GET['input-file']]['filepath'];
 	}
 }
 
@@ -90,8 +109,9 @@ $stats = $data['stats'];
 		<form id="input-file-form" method="GET" action="results.php">
 			<label for="input-file">Input file:</label>
 			<select id="input-file" name="input-file" onchange="document.getElementById('input-file-form').submit();">
-				<option value="1" <?php echo isset($_GET['input-file']) && $_GET['input-file'] == '1' ? 'selected="selected"' : NULL; ?>>normal</option>
-				<option value="2" <?php echo isset($_GET['input-file']) && $_GET['input-file'] == '2' ? 'selected="selected"' : NULL; ?>>opcache</option>
+				<?php foreach ($inputFiles as $key => $inputFile): ?>
+				<option value="<?php echo $key; ?>" <?php echo isset($_GET['input-file']) && $_GET['input-file'] == $key ? 'selected="selected"' : NULL; ?>><?php echo $inputFile['name']; ?></option>
+				<?php endforeach; ?>
 			</select>
 			<noscript><input type="submit" value="Load"></noscript>
 		</form>

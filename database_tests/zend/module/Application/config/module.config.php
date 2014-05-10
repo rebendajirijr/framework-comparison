@@ -7,7 +7,26 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
+use Zend\ServiceManager\ServiceLocatorInterface,
+	Zend\Db\Adapter\Adapter,
+	Zend\Db\Adapter\Driver,
+	JR\FrameworkComparison\Utils\Logger;
+
 return array(
+	'parameters' => array(
+		'dbConnectionConfig' => array(
+			'host' => '127.0.0.1',
+			'database' => 'test',
+			'username' => '',
+			'password' => '',
+			'options' => array(
+				'buffer_results' => TRUE,
+			),
+		),
+		'logger' => array(
+			'dir' => __DIR__ . '/../../../../../JR/FrameworkComparison/_results/db',
+		),
+	),
     'router' => array(
         'routes' => array(
             'home' => array(
@@ -58,13 +77,36 @@ return array(
             'translator' => 'MvcTranslator',
         ),
 		'factories' => array(
-			'bookRepository' => function (Zend\ServiceManager\ServiceLocatorInterface $serviceManager) {
+			'logger' => function (ServiceLocatorInterface $serviceManager) {
 				$config = $serviceManager->get('config');
-				$xmlFilename = $config['parameters']['booksXmlFilename'];
-				$bookRepository = new \JR\FrameworkComparison\Model\Repositories\BookRepository($xmlFilename);
+				$logger = new Logger($config['parameters']['logger']['dir']);
+				return $logger;
+			},
+			'dbConnection' => function (ServiceLocatorInterface $serviceManager) {
+				$config = $serviceManager->get('config');
+				$connection = new Driver\Mysqli\Connection($config['parameters']['dbConnectionConfig']);
+				return $connection;
+			},
+			'dbDriver' => function (ServiceLocatorInterface $serviceManager) {
+				$driver = new Driver\Mysqli\Mysqli($serviceManager->get('dbConnection'));
+				return $driver;
+			},
+			'dbAdapter' => function (ServiceLocatorInterface $serviceManager) {
+				$adapter = new Adapter($serviceManager->get('dbDriver'));
+				return $adapter;
+			},
+			'bookRepository' => function (ServiceLocatorInterface $serviceManager) {
+//				$bookRepository = new \JR\FrameworkComparison\Model\Repositories\ZendDbBookRepository(
+//					$serviceManager->get('dbAdapter'),
+//					$serviceManager->get('logger')
+//				);
+				$bookRepository = new \JR\FrameworkComparison\Model\Repositories\ZendDbOopBookRepository(
+					$serviceManager->get('dbAdapter'),
+					$serviceManager->get('logger')
+				);
 				return $bookRepository;
 			},
-			'bookFacade' => function (Zend\ServiceManager\ServiceLocatorInterface $serviceManager) {
+			'bookFacade' => function (ServiceLocatorInterface $serviceManager) {
 				$bookRepository = $serviceManager->get('bookRepository');
 				$bookFacade = new \JR\FrameworkComparison\Model\Facades\BookFacade($bookRepository);
 				return $bookFacade;
