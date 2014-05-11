@@ -28,7 +28,7 @@ class BookController extends BaseController
 	protected function initializeBook($id)
 	{
 		if (NULL === ($this->book = $this->bookFacade->findOneBook($id))) {
-			throw new \Exception("Book with ID '{$this->id}' not found.");
+			throw new \Exception("Book with ID '{$id}' not found.");
 		}
 		
 		$this->view->book = $this->book;

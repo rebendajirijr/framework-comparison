@@ -65,7 +65,7 @@ $di->set('logger', function () use ($config) {
 	return $logger;
 }, TRUE);
 
-$di->set('dbAdapter', function () use ($di, $config) {
+$di->set('db', function () use ($di, $config) {
 	$dbConfig = array(
 		'host' => $config['database']['host'],
 		'dbname' => $config['database']['dbname'],
@@ -76,10 +76,14 @@ $di->set('dbAdapter', function () use ($di, $config) {
 	return $adapter;
 }, TRUE);
 
+$di->set('modelManager', function () {
+	$manager = new \Phalcon\Mvc\Model\Manager();
+	return $manager;
+}, TRUE);
+
 $di->set('bookRepository', function () use ($di) {
-	$adapter = $di->get('dbAdapter');
-	$logger = $di->get('logger');
-	$bookRepository = new Repositories\PhalconDbBookRepository($adapter, $logger);
+	//$bookRepository = new Repositories\PhalconDbBookRepository($di->get('db'), $di->get('logger'));
+	$bookRepository = new Repositories\PhalconDbOopBookRepository($di->get('modelManager'), $di->get('logger'));
 	return $bookRepository;
 }, TRUE);
 

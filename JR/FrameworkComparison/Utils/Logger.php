@@ -39,6 +39,8 @@ class Logger
 	
 	const TYPE_PHALCON_DB_BOOKS = 'phalcon_db_books';
 	const TYPE_PHALCON_DB_BOOK = 'phalcon_db_book';
+	const TYPE_PHALCON_DB_OOP_BOOKS = 'phalcon_db_oop_books';
+	const TYPE_PHALCON_DB_OOP_BOOK = 'phalcon_db_oop_book';
 	
 	/** @var stromg */
 	private $logDirectory;

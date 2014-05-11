@@ -5,8 +5,7 @@ namespace JR\FrameworkComparison\Model\Repositories;
 use JR\FrameworkComparison\Model\Entities,
 	JR\FrameworkComparison\Utils\Logger,
 	Nette\Diagnostics\Debugger,
-	Phalcon\Db\AdapterInterface,
-	Phalcon\Db\ResultInterface;
+	Phalcon\Db\AdapterInterface;
 
 /**
  * Description of PhalconDbBookRepository
