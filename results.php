@@ -82,7 +82,13 @@ $filepath = __DIR__ . '/JR/FrameworkComparison/_results/timelog.csv';
 if (isset($_GET['input-file'])) {
 	if (array_key_exists($_GET['input-file'], $inputFiles)) {
 		$filepath = $inputFiles[$_GET['input-file']]['filepath'];
+	} else {
+		header('Location: ?input-file=1');
 	}
+}
+
+if (!file_exists($filepath)) {
+	die("File '{$filepath}' does not exist. Have you already run <a href=\"../\">associated test</a>?");
 }
 
 $timeLogProcessor = new TimeLogProcessor($filepath);
